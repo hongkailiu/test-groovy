@@ -8,8 +8,12 @@
  */
 
 // Apply the groovy plugin to add support for Groovy
-apply plugin: 'groovy'
-
+// apply plugin: 'groovy'
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+    id "com.jfrog.artifactory" version "4.4.0"
+}
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use 'jcenter' for resolving your dependencies.
@@ -25,4 +29,25 @@ dependencies {
     // We use the awesome Spock testing and specification framework
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
     testCompile 'junit:junit:4.12'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId 'tk.hongkailiu.test'
+            artifactId 'test-groovy'
+            version '0.1'
+
+            from components.java
+        }
+    }
+}
+
+artifactoryPublish {
+    skip = false //Skip build info analysis and publishing (false by default)
+    contextUrl = "${artifactory_contextUrl}"
+    publications ('mavenJava')
+    clientConfig.publisher.repoKey = 'gradle-local'
+    clientConfig.publisher.username = "${artifactory_user}"
+    clientConfig.publisher.password = "${artifactory_password}"
 }
