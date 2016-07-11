@@ -19,3 +19,15 @@ println "Hello, $y"
 def firstName = "Douglas"
 def name = "Adams"
 println "Hello, ${firstName[0]}. $name"
+
+def s = """This is
+a multiline
+string"""
+
+println s.getClass()
+
+def s1 = "Hello, ${firstName[0]}. $name"
+println s1.getClass()
+
+def pattern = ~/a slash must be escaped \/ but backslash, like in a digit match \d does not/
+println pattern.getClass()
