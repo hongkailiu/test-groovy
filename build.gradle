@@ -57,6 +57,8 @@ sonarqube {
         //property "sonar.junit.reportsPath", "$buildDir/test-results/"
         property 'sonar.groovy.cobertura.reportPath', "$buildDir/reports/cobertura/coverage.xml"
         //property 'sonar.groovy.codenarc.reportPath', "$buildDir/reports/codenarc/test.xml"
+        // deprecated
+        //property "sonar.profile", "ARM Profile for Groovy"
     }
 }
 
