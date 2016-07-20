@@ -13,6 +13,9 @@ plugins {
     id 'groovy'
     id 'maven-publish'
     id "com.jfrog.artifactory" version "4.4.0"
+    id "net.saliman.cobertura" version "2.3.2"
+    id "org.sonarqube" version "2.0.1"
+    id 'codenarc'
 }
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -29,6 +32,7 @@ dependencies {
     // We use the awesome Spock testing and specification framework
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
     testCompile 'junit:junit:4.12'
+    testRuntime 'org.slf4j:slf4j-api:1.7.18'
 }
 
 publishing {
@@ -37,17 +41,44 @@ publishing {
             groupId 'tk.hongkailiu.test'
             artifactId 'test-groovy'
             version '0.1'
-
             from components.java
         }
     }
 }
 
+cobertura {
+    coverageFormats = ['html', 'xml']
+}
+
+sonarqube {
+    properties {
+        property "sonar.language", "grvy"
+        property 'sonar.host.url', 'http://192.168.31.223:9000'
+        //property "sonar.junit.reportsPath", "$buildDir/test-results/"
+        property 'sonar.groovy.cobertura.reportPath', "$buildDir/reports/cobertura/coverage.xml"
+        //property 'sonar.groovy.codenarc.reportPath', "$buildDir/reports/codenarc/test.xml"
+    }
+}
+
+tasks.withType(CodeNarc) {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+codenarc {
+    toolVersion = "0.24.1"
+    configFile = new File('config/codenarc/rules.groovy')
+    //reportFormat = 'xml'
+    ignoreFailures = true
+}
+
 artifactoryPublish {
     skip = false //Skip build info analysis and publishing (false by default)
-    contextUrl = "${artifactory_contextUrl}"
+    //contextUrl = "${artifactory_contextUrl}"
     publications ('mavenJava')
     clientConfig.publisher.repoKey = 'gradle-local'
-    clientConfig.publisher.username = "${artifactory_user}"
-    clientConfig.publisher.password = "${artifactory_password}"
+    //clientConfig.publisher.username = "${artifactory_user}"
+    //clientConfig.publisher.password = "${artifactory_password}"
 }
