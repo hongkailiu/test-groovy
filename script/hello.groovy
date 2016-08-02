@@ -31,3 +31,21 @@ println s1.getClass()
 
 def pattern = ~/a slash must be escaped \/ but backslash, like in a digit match \d does not/
 println pattern.getClass()
+
+// closure
+def helloWorld = {
+    println "Hello World! closure~~"
+}
+
+helloWorld()
+
+def power = { int x1, int y1 ->
+    return Math.pow(x1, y1)
+}
+println power(2, 3) // Will print 8.0
+
+def transform = { str, transformation ->
+    transformation(str)
+}
+
+println transform("Hello World", { it.toUpperCase() })
