@@ -25,11 +25,11 @@ repositories {
     jcenter()
 }
 
-/*test {
+test {
     testLogging {
         events "passed", "skipped", "failed"
     }
-}*/
+}
 
 // In this section you declare the dependencies for your production and test code
 dependencies {

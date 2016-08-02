@@ -1,20 +1,21 @@
 package tk.hongkailiu.test.groovy.entity
 
-import spock.lang.Specification
-import spock.lang.Unroll
+import org.junit.Before
+import org.junit.Test
 
 /**
  * Created by hongkailiu on 2016-08-01.
  */
-@Unroll
-class StudentTest extends Specification {
-    def "#student.name is a #sex.toLowerCase() student"() {
-        expect:
-        student.getSex() == sex
+class StudentTest {
 
-        where:
-        student                    || sex
-        new Student(name: "Fred")  || "Male"
-        new Student(name: "Wilma") || "Female"
+    private Student unitUnderTest
+
+    @Before public void setup() {
+        unitUnderTest = new Student()
+    }
+    @Test public void testIdGetterSetter(){
+        long id = 3
+        unitUnderTest.setId(id)
+        assert id == unitUnderTest.getId()
     }
 }
